@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<eclipse-userlibraries>
+  <library name="mysql-connector-java-5.1.42-bin">
+    <archive path="C:/Users/Błażej/Node/HotelBookingServer/src/JGT/LIB/mysql-connector-java-5.1.42-bin.jar" />
+  </library>
+  <library name="node-DefinitelyTyped">
+    <archive path="C:/Users/Błażej/.IntelliJIdea2016.3/config/javascript/extLibs/http_github.com_DefinitelyTyped_DefinitelyTyped_raw_master_node_index.d.ts" />
+  </library>
+</eclipse-userlibraries>
+
