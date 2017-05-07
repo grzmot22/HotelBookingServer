@@ -40,6 +40,7 @@ public class ClientServiceThread extends Thread
 
         // Print out details of this connection
         System.out.println("Accepted Client Address - " + clientSocket.getInetAddress().getHostName());
+        serverGUI.textLog("Accepted Client Address - " + clientSocket.getInetAddress().getHostName());
 
         try
         {
@@ -60,6 +61,7 @@ public class ClientServiceThread extends Thread
                 {
                     threadRun = false;
                     System.out.print("Stopping client thread for client : ");
+                    serverGUI.textLog("Stopping client thread for client : ");
                 }
                 else
                 {
@@ -84,6 +86,7 @@ public class ClientServiceThread extends Thread
                 out.close();
                 clientSocket.close();
                 System.out.println("...Stopped");
+                serverGUI.textLog("...Stopped");
             }
             catch(IOException ioe)
             {
@@ -253,7 +256,7 @@ public class ClientServiceThread extends Thread
                     String hotelCountry = clientCommand.substring(clientCommand.indexOf('[')+1,clientCommand.indexOf(']')).split(",")[3];
 
                     System.out.println(clientCommand.substring(clientCommand.indexOf('[')+1,clientCommand.indexOf(']')).split(",")[4].toString());
-
+                    serverGUI.textLog(clientCommand.substring(clientCommand.indexOf('[')+1,clientCommand.indexOf(']')).split(",")[4].toString());
                     if(clientCommand.substring(clientCommand.indexOf('[')+1,clientCommand.indexOf(']')).split(",")[4].contains("Single"))
                         roomType = 0;
                     else
@@ -402,6 +405,7 @@ public class ClientServiceThread extends Thread
                     dataBaseConnection = Server.getDatabaseConnection();
                     statementSQL = dataBaseConnection.createStatement();
                     System.out.println("SELECT Name, City FROM hotels WHERE hotels.hotelID = '"+hotelID+"';");
+                    serverGUI.textLog("SELECT Name, City FROM hotels WHERE hotels.hotelID = '"+hotelID+"';");
                     resultSetSQL = statementSQL.executeQuery("SELECT Name, City FROM hotels WHERE hotels.hotelID = '"+hotelID+"';");
                     while (resultSetSQL.next())
                     {
