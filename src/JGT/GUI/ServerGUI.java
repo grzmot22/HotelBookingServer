@@ -66,6 +66,7 @@ public class ServerGUI extends JFrame
                     }
                 };
                 waitingThread.start();
+                textAreaLog.append("Server started \n");
             }
         });
 
@@ -88,5 +89,7 @@ public class ServerGUI extends JFrame
         setVisible(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
-
+    public void textLog(String s){
+        textAreaLog.append(s);
+    }
 }

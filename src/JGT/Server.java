@@ -27,7 +27,7 @@ public class Server
         */
         try
         {
-            mySQLconnection = DriverManager.getConnection("jdbc:mysql://localhost:3306/hotelbookingdatabase", "Blazej", "enter121");
+            mySQLconnection = DriverManager.getConnection("jdbc:mysql://localhost:3306/hotelbookingdatabase", "root", "");
 
             if(mySQLconnection.isValid(15))
             {

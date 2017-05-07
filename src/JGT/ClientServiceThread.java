@@ -3,6 +3,8 @@ package JGT; /**
  *
  * It's responsible for communication with specified client.
  */
+import JGT.GUI.ServerGUI;
+
 import java.io.*;
 import java.net.*;
 import java.sql.Connection;
@@ -18,6 +20,8 @@ public class ClientServiceThread extends Thread
     private Statement statementSQL;
     private ResultSet resultSetSQL;
     private ResultSet resultSetSQL1;
+    private ServerGUI serverGUI = new ServerGUI();
+
 
     public ClientServiceThread()
     {
@@ -50,6 +54,7 @@ public class ClientServiceThread extends Thread
                 //TEST
                 System.out.println("Client Says :" + clientCommand);
 
+                serverGUI.textLog("Client Says :" + clientCommand +"\n");
 
                 if(clientCommand.equals("<!ENDSESSION!>"))
                 {
