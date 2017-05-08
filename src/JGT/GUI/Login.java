@@ -89,13 +89,13 @@ public class Login extends JFrame
                 {
                     if(accessResult == "DENIED")
                     {
-                        JOptionPane.showMessageDialog(null, "zle haslo lub login");
+                        JOptionPane.showMessageDialog(null, "Wrong login or password.");
                     }
                     else
                     {
                         if(accessResult == "DENIED_ROLE")
                         {
-                            JOptionPane.showMessageDialog(null, "brak odpowiednich uprawnien");
+                            JOptionPane.showMessageDialog(null, "Access denied.");
                         }
                     }
                 }

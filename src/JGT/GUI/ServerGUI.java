@@ -5,13 +5,16 @@ import JGT.Server;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import java.text.DateFormat;
+import java.util.Date;
+import java.text.*;
 
 
 public class ServerGUI extends JFrame
 {
     private Container contentPane;
     private JLabel labelTest;
-    private JTextArea textAreaLog;
+    private static JTextArea textAreaLog;
     private JButton buttonServerStart;
     private JButton buttonServerStop;
 
@@ -23,7 +26,7 @@ public class ServerGUI extends JFrame
 
         contentPane = getContentPane();
 
-        setBounds(0, 0, 300, 500);
+        setBounds(0, 0, 600, 500);
         contentPane.setLayout(null);
 
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
@@ -34,7 +37,7 @@ public class ServerGUI extends JFrame
 		 */
 
         labelTest = new JLabel("SERVER", SwingConstants.RIGHT);
-        labelTest.setBounds(80, 29, 100, 11);
+        labelTest.setBounds(250, 29, 100, 11);
         labelTest.setForeground(Color.BLACK);
         contentPane.add(labelTest);
 
@@ -43,7 +46,7 @@ public class ServerGUI extends JFrame
 		 */
 
         textAreaLog = new JTextArea();
-        textAreaLog.setBounds(10, 50, 275, 350);
+        textAreaLog.setBounds(10, 50, 575, 350);
         textAreaLog.setColumns(10);
         textAreaLog.setEditable(false);
         contentPane.add(textAreaLog);
@@ -53,7 +56,7 @@ public class ServerGUI extends JFrame
 		 */
 
         buttonServerStart = new JButton("Start");
-        buttonServerStart.setBounds(100, 420, 100, 30);
+        buttonServerStart.setBounds(175, 420, 100, 30);
         contentPane.add(buttonServerStart);
 
         buttonServerStart.addActionListener(new ActionListener()
@@ -66,11 +69,12 @@ public class ServerGUI extends JFrame
                     }
                 };
                 waitingThread.start();
+                JGT.GUI.ServerGUI.writeToLog("Server started.");
             }
         });
 
         buttonServerStop = new JButton("Stop");
-        buttonServerStop.setBounds(100, 420, 100, 30);
+        buttonServerStop.setBounds(325, 420, 100, 30);
         contentPane.add(buttonServerStop);
 
         buttonServerStop.addActionListener(new ActionListener()
@@ -83,10 +87,17 @@ public class ServerGUI extends JFrame
 
 
         pack();
-        setSize(300, 500);
+        setSize(600, 500);
         setResizable(false);
         setVisible(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
+    public static void writeToLog(String message)
+    {
+        DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss dd/MM/yyyy");
+        Date date = new Date();
+        System.out.println(dateFormat.format(date));
+        textAreaLog.setText(textAreaLog.getText() + "\n[" + dateFormat.format(date) + "] " + message);
+    }
 }

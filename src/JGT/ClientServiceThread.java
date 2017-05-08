@@ -36,6 +36,7 @@ public class ClientServiceThread extends Thread
 
         // Print out details of this connection
         System.out.println("Accepted Client Address - " + clientSocket.getInetAddress().getHostName());
+        JGT.GUI.ServerGUI.writeToLog("New client connected from address: "+ clientSocket.getInetAddress().getHostName());
 
         try
         {
@@ -78,7 +79,7 @@ public class ClientServiceThread extends Thread
                 in.close();
                 out.close();
                 clientSocket.close();
-                System.out.println("...Stopped");
+                JGT.GUI.ServerGUI.writeToLog("Client from address: " + clientSocket.getInetAddress().getHostName() + " disconnected.");
             }
             catch(IOException ioe)
             {
@@ -266,7 +267,7 @@ public class ClientServiceThread extends Thread
 
 
                     int result = statementSQL.executeUpdate("INSERT INTO reservations(userName, hotelID, isDoubleRoom, startDate, endDate) VALUES ('" +username+ "'," +hotelId+ "," +roomType+ ",'" +startDate+ "','" +endDate+ "');");
-
+                    JGT.GUI.ServerGUI.writeToLog("Client from address: " + clientSocket.getInetAddress().getHostName() + " made a reservation.");
 
                 }
                 catch(Exception e1)
@@ -360,6 +361,7 @@ public class ClientServiceThread extends Thread
                             endDate = endDate.split("/")[2] + "-" + endDate.split("/")[1] + "-" + endDate.split("/")[0];
                         }
                         int res = statementSQL.executeUpdate("UPDATE reservations SET isDoubleRoom="+roomType+", startDate='"+startDate+"', endDate='"+endDate+"' WHERE reservationID="+reservationID+";");
+                        JGT.GUI.ServerGUI.writeToLog("Client from address: " + clientSocket.getInetAddress().getHostName() + " edited his reservation id: "+ resultSetSQL+".");
                     }
                     else
                     {
@@ -381,6 +383,7 @@ public class ClientServiceThread extends Thread
                     dataBaseConnection = Server.getDatabaseConnection();
                     statementSQL = dataBaseConnection.createStatement();
                     int result = statementSQL.executeUpdate("DELETE FROM reservations WHERE reservationID = " + id);
+                    JGT.GUI.ServerGUI.writeToLog("Client from address: " + clientSocket.getInetAddress().getHostName() + " canceled his reservation id: " + id + ".");
                 }
                 catch(Exception e1)
                 {
@@ -442,6 +445,7 @@ public class ClientServiceThread extends Thread
                     statementSQL = dataBaseConnection.createStatement();
 
                     int res = statementSQL.executeUpdate("UPDATE reservations SET RoomNumber='"+roomNo+"' WHERE reservationID="+reservationID+";");
+                    JGT.GUI.ServerGUI.writeToLog("Client from address: " + clientSocket.getInetAddress().getHostName() + " updated room information.");
 
                 }
                 catch(Exception e1)
@@ -469,6 +473,11 @@ public class ClientServiceThread extends Thread
             {
                 dataBaseConnection = Server.getDatabaseConnection();
                 statementSQL = dataBaseConnection.createStatement();
+
+
+                System.out.println("SELECT * FROM `reservations` WHERE ((reservations.startDate <= '" + startDate + "' AND reservations.endDate >= '" + endDate + "') OR\n" +
+                        "(reservations.startDate >= '" + startDate + "' AND reservations.startDate <= '" + endDate + "') OR\n" +
+                        "(reservations.endDate >= '" + startDate + "' AND reservations.endDate <= '" + endDate + "')) AND reservations.hotelID = '" + hotelID + "' AND reservations.isDoubleRoom = 0");
                 resultSetSQL1 = statementSQL.executeQuery(
                     "SELECT * FROM `reservations` WHERE ((reservations.startDate <= '" + startDate + "' AND reservations.endDate >= '" + endDate + "') OR\n" +
                     "(reservations.startDate >= '" + startDate + "' AND reservations.startDate <= '" + endDate + "') OR\n" +
@@ -491,6 +500,9 @@ public class ClientServiceThread extends Thread
             {
                 dataBaseConnection = Server.getDatabaseConnection();
                 statementSQL = dataBaseConnection.createStatement();
+                System.out.println("SELECT * FROM `reservations` WHERE ((reservations.startDate <= '" + startDate + "' AND reservations.endDate >= '" + endDate + "') OR\n" +
+                        "(reservations.startDate >= '" + startDate + "' AND reservations.startDate <= '" + endDate + "') OR\n" +
+                        "(reservations.endDate >= '" + startDate + "' AND reservations.endDate <= '" + endDate + "')) AND reservations.hotelID = '" + hotelID + "' AND reservations.isDoubleRoom = 1");
                 resultSetSQL1 = statementSQL.executeQuery(
                         "SELECT * FROM `reservations` WHERE ((reservations.startDate <= '" + startDate + "' AND reservations.endDate >= '" + endDate + "') OR\n" +
                                 "(reservations.startDate >= '" + startDate + "' AND reservations.startDate <= '" + endDate + "') OR\n" +
@@ -506,8 +518,7 @@ public class ClientServiceThread extends Thread
                 e1.printStackTrace();
             }
         }
-
-
+        System.out.println(reservationCounter +" < "+ roomsCount);
         if(reservationCounter < roomsCount)
             return true;
         else
